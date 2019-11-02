@@ -95,6 +95,7 @@ listen_addresses = ['127.0.0.1:55553', '[::1]:55553'] # 端口不要和其它服
 force_tcp = true                                      # 国内网络环境下建议全部走tcp
 proxy = 'socks5://127.0.0.1:1080'                     # 建议使用代理
 fallback_resolver = '1.1.1.1:53'                      # fallback的DNS也可以设置为国内DNS
+ignore_system_dns = true                              # 不使用ISP提供的DNS
 netprobe_address = '127.0.0.1:53'                     # 用于检测网络的地址，也建议更换为国内的DNS
 cache = false                                         # ChinaDNS的机制要求上游DNS服务器禁用缓存
 {% endhighlight %}
@@ -185,7 +186,7 @@ config switch_vlan
         option vid '85'
 {% endhighlight %}
 
-![](/img/openwrt-vlan.jpg)
+![](/img/openwrt-vlan.JPG)
 
 - IPTV DHCP-option 在`/etc/dnsmasq.conf`加入
 
@@ -195,3 +196,31 @@ dhcp-option=15
 dhcp-option=28
 dhcp-option=60,00:00:01:06:68:75:61:71:69:6E:02:0A:48:47:55:34:32:31:4E:20:76:33:03:0A:48:47:55:34:32:31:4E:20:76:33:04:10:32:30:30:2E:55:59:59:2E:30:2E:41:2E:30:2E:53:48:05:04:00:01:00:50
 {% endhighlight %}
+
+
+## 0x04 多wan口设置
+- 【openwrt的官方文档](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3)
+
+- 安装mwan3
+{% highlight bash %}
+opkg update
+opkg install mwan3
+opkg install luci-app-mwan3
+{% endhighlight %}
+
+- vlan设置
+1. step 1: 从现有的LAN VLAN中选择选择一个作为第二个WAN口，在`Network`->`Switch中`由`untagged`更改为`off`
+![](/img/openwrt-mwan-vlan1.JPG)
+
+2. step 2: 利用刚刚空余出来的网卡新建一个VLAN，也就是图中VLAN3
+![](/img/openwrt-mwan-vlan2.JPG)
+
+3. step 3: 重启路由器
+
+4. step 4: 在`Network`->`Interface`中新建一个`interface`，取一个名字如`wanb`
+
+5. step 5: 在该`interface`的`Firewall settings`中设置为`wan`的firewall zone
+
+6. step 6: 设置由路由器自身发起的包默认从哪里发起
+
+7. step 7: 在`Network`->`Interface`中两个WAN口的`Advanced Settings`中`Use gateway metric`必须不同，可以分别是10和20
