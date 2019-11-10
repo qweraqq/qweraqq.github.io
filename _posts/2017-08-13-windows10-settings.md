@@ -71,6 +71,7 @@ choco source add -n=fireeye -s="https://www.myget.org/F/flare/api/v2"
 choco install -y vcredist-all.flare
 choco install -y 7zip.install
 # choco install -y python3
+# choco install -y anaconda3
 choco install -y mobaxterm
 choco install -y winscp.install
 choco install -y googlechrome
@@ -86,6 +87,8 @@ choco install -y sysinternals
 choco install -y vlc
 choco install -y Wget
 choco install -y wireshark
+choco install -y greenshot
+choco install -y vscode
 # choco install -y irfanview
 # choco install -y virtualbox
 # choco install -y choco-cleaner
