@@ -35,7 +35,7 @@ opkg install luci
 ## 0x01 科学上网
 - install
 {% highlight bash %}
-opkg install shadowsocks-libev
+opkg install shadowsocks-libev-ss-local shadowsocks-libev-ss-redir shadowsocks-libev-ss-rules shadowsocks-libev-config shadowsocks-libev-ss-tunnel shadowsocks-libev-ss-server
 opkg install luci-app-shadowsocks-libev
 {% endhighlight %}
 
