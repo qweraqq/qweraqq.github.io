@@ -86,6 +86,9 @@ wget https://raw.githubusercontent.com/etam/DNS-over-HTTPS-for-OpenWRT/master/dn
 chmod +x /usr/sbin/dnscrypt-proxy
 chmod +x /etc/init.d/dnscrypt-proxy
 cp linux-arm64/example-dnscrypt-proxy.toml /etc/config/dnscrypt-proxy.toml
+
+# 202002 UPDATE, opkg也可以
+opkg install dnscrypt-proxy2
 {% endhighlight %}
 
 - 配置`/etc/config/dnscrypt-proxy.toml`
