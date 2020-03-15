@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[writeup] HTB Postman"
-date: 2019-11-30 00:00:00 +0800
+date: 2020-03-15 00:00:00 +0800
 author: xiangxiang
 categories: HTB writeup
 tags: [htb hackthebox writup postman webmin redis CVE]
