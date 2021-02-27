@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Openwrt settings(持续更新中)"
+title: "[网络折腾]Openwrt settings(持续更新中)"
 date: 2019-11-02 00:00:00 +0800
 author: xiangxiang
 categories: env-settings openwrt
@@ -79,27 +79,24 @@ Destination settings -> Dst ip/net bypass file设置为/etc/ignore.list
 opkg install ca-bundle
 cd /tmp
 # 根据实际情况选择版本
-wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.29/dnscrypt-proxy-linux_arm64-2.0.29.tar.gz -O dnscrypt-proxy.tar.gz 
+wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_arm64-2.0.45.tar.gz -O dnscrypt-proxy.tar.gz 
 tar -zxvf dnscrypt-proxy.tar.gz 
 cp linux-arm64/dnscrypt-proxy /usr/sbin/dnscrypt-proxy # 注意路径
 wget https://raw.githubusercontent.com/etam/DNS-over-HTTPS-for-OpenWRT/master/dnscrypt-proxy -O /etc/init.d/dnscrypt-proxy
 chmod +x /usr/sbin/dnscrypt-proxy
 chmod +x /etc/init.d/dnscrypt-proxy
 cp linux-arm64/example-dnscrypt-proxy.toml /etc/config/dnscrypt-proxy.toml
-
-# 202002 UPDATE, opkg也可以
-opkg install dnscrypt-proxy2
 {% endhighlight %}
 
 - 配置`/etc/config/dnscrypt-proxy.toml`
 {% highlight text %}
 server_names = ['google', 'yandex', 'cloudflare']     # 取消对于server_names的注释
 listen_addresses = ['127.0.0.1:55553', '[::1]:55553'] # 端口不要和其它服务冲突
-force_tcp = true                                      # 国内网络环境下建议全部走tcp
+force_tcp = false                                     # 国内网络环境下可以全部走tcp
 proxy = 'socks5://127.0.0.1:1080'                     # 建议使用代理
-fallback_resolver = '1.1.1.1:53'                      # fallback的DNS也可以设置为国内DNS
+fallback_resolver = ['223.5.5.5:53', '1.1.1.1:53']    # fallback的DNS也可以设置为国内DNS
 ignore_system_dns = true                              # 不使用ISP提供的DNS
-netprobe_address = '127.0.0.1:53'                     # 用于检测网络的地址，也建议更换为国内的DNS
+netprobe_address = '114.114.114.114:53'               # 用于检测网络的地址，也建议更换为国内的DNS
 cache = false                                         # ChinaDNS的机制要求上游DNS服务器禁用缓存
 {% endhighlight %}
 
@@ -174,7 +171,7 @@ nameserver 116.228.111.118
 nameserver 180.168.255.18
 {% endhighlight %}
 
-- IPTV VLAN设置，只需要参考VLAN51和85
+- IPTV VLAN设置，只需要参考VLAN51和85(如果路由器有switch芯片)
 {% highlight text %}
 config switch_vlan
         option device 'switch0'
@@ -190,6 +187,23 @@ config switch_vlan
 {% endhighlight %}
 
 ![](/img/openwrt-vlan.JPG)
+
+- IPTV VLAN设置，只需要参考VLAN51和85(如果路由器没有switch芯片,比如软路由)
+{% highlight text %}
+config interface 'IPTV_VLAN51'
+        option proto 'none'
+        option ifname 'eth0.51 eth3.51'
+        option type 'bridge'
+        option delegate '0'
+
+config interface 'IPTV_VLAN85'
+        option proto 'none'
+        option ifname 'eth0.85 eth3.85'
+        option type 'bridge'
+        option delegate '0'
+{% endhighlight %}
+![](/img/openwrt-vlan-x86_1.JPG)
+![](/img/openwrt-vlan-x86_2.JPG)
 
 - IPTV DHCP-option 在`/etc/dnsmasq.conf`加入
 
