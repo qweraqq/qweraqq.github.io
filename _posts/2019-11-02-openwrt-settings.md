@@ -262,6 +262,7 @@ opkg install proto-bonding
 {% highlight bash %}
 # 查看链路聚合状态
 cat /sys/class/net/bond0/bonding/mode
+cat /proc/net/bonding/bond1
 {% endhighlight %}
 - 以下的配置设置了两个bonding, 一个为默认的balance-rr模式, 一个为lacp模式
 {% highlight text %}
