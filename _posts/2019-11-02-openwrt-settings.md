@@ -202,6 +202,7 @@ config interface 'IPTV_VLAN85'
         option type 'bridge'
         option delegate '0'
 {% endhighlight %}
+
 ![](/img/openwrt-vlan-x86_1.JPG)
 ![](/img/openwrt-vlan-x86_2.JPG)
 
@@ -216,7 +217,7 @@ dhcp-option=60,00:00:01:06:68:75:61:71:69:6E:02:0A:48:47:55:34:32:31:4E:20:76:33
 
 
 ## 0x04 多wan口设置
-- 【openwrt的官方文档](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3)
+- [openwrt的官方文档](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3)
 
 - 安装mwan3
 {% highlight bash %}
@@ -225,11 +226,13 @@ opkg install mwan3
 opkg install luci-app-mwan3
 {% endhighlight %}
 
-- vlan设置
+- vlan设置(有交换芯片)
 1. step 1: 从现有的LAN VLAN中选择选择一个作为第二个WAN口，在`Network`->`Switch中`由`untagged`更改为`off`
+
 ![](/img/openwrt-mwan-vlan1.JPG)
 
 2. step 2: 利用刚刚空余出来的网卡新建一个VLAN，也就是图中VLAN3
+
 ![](/img/openwrt-mwan-vlan2.JPG)
 
 3. step 3: 重启路由器
@@ -241,3 +244,47 @@ opkg install luci-app-mwan3
 6. step 6: 设置由路由器自身发起的包默认从哪里发起
 
 7. step 7: 在`Network`->`Interface`中两个WAN口的`Advanced Settings`中`Use gateway metric`必须不同，可以分别是10和20
+
+- vlan设置(软路由)
+直接设置对应的物理网卡即可
+
+![](/img/openwrt-mwan-vlan3.JPG)
+
+
+## 0x05 端口聚合设置
+- 安装[proto-bonding](https://openwrt.org/packages/pkgdata/proto-bonding)
+{% highlight bash %}
+opkg install proto-bonding
+{% endhighlight %}
+
+- 使用命令行配置,如果需要重启后仍然生效,需要添加到`/etc/rc.local`
+- 默认会带一个bond0, 模式为balance-rr, 且貌似不能修改
+{% highlight bash %}
+# 查看链路聚合状态
+cat /sys/class/net/bond0/bonding/mode
+{% endhighlight %}
+- 以下的配置设置了两个bonding, 一个为默认的balance-rr模式, 一个为lacp模式
+{% highlight text %}
+ip link add bond1 type bond
+ip link set eth0 master bond1
+ip link set eth1 master bond1
+ip link add bond2 type bond mode 802.3ad
+ip link set eth2 master bond2
+ip link set eth3 master bond2
+exit 0
+{% endhighlight %}
+- bonding生效后, 直接把bondx当作普通网卡设置即可
+
+## 0x06 网络速度测试
+- 安装[iperf3](https://openwrt.org/packages/pkgdata/iperf3)
+{% highlight bash %}
+opkg install iperf3
+{% endhighlight %}
+- 测速方式
+{% highlight bash %}
+# 服务端
+iperf3 -s
+
+# client端
+iperf3 -c server_ip
+{% endhighlight %}
