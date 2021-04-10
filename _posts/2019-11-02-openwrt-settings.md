@@ -71,9 +71,13 @@ Destination settings -> Dst ip/net bypass file设置为/etc/ignore.list
 #### dnscrypt-proxy
 - [dnscrypt-proxy的官方安装步骤](https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-OpenWRT)
 
-- 不要使用openwrt opkg中的dnscrypt-proxy(版本老, 功能支持较少)
+- 不要使用openwrt opkg中的dnscrypt-proxy(版本老, 功能支持较少), 要使用dnscrypt-proxy2
+{% highlight bash %}
+opkg update
+opkg install dnscrypt-proxy2
+{% endhighlight %}
 
-- 直接在openwrt上从[github](https://github.com/DNSCrypt/dnscrypt-proxy/releases)下载最新的release
+- 手动方式(202104可以废弃)直接在openwrt上从[github](https://github.com/DNSCrypt/dnscrypt-proxy/releases)下载最新的release
 {% highlight bash %}
 # 安装依赖的CA证书
 opkg install ca-bundle
@@ -139,7 +143,7 @@ opkg install luci-app-chinadns
 1. 默认 DNS 服务器端口为 `5353`, 可使用`LuCI`进行配置  
 2. 可搭配路由器自带的Dnsmasq使用 借助其 DNS 缓存提升查询速度  
    > LuCI 中定位至「网络 - DHCP/DNS」  
-   >「基本设置」 **本地服务器** 填写 `127.0.0.1#5353`  
+   >「基本设置」 **DNS forwardings** 填写 `127.0.0.1#5353`  
    >「HOSTS和解析文件」勾选 **忽略解析文件**  
 3. 更新 `/etc/chinadns_chnroute.txt`
 {% highlight bash %}
@@ -175,15 +179,16 @@ nameserver 180.168.255.18
 {% highlight text %}
 config switch_vlan
         option device 'switch0'
-        option vlan '4'
-        option ports '2t 1t 4t'
+        option vlan '3'
         option vid '51'
+        option ports '1t 2t 3t 4t 0t'
 
 config switch_vlan
         option device 'switch0'
-        option vlan '6'
-        option ports '2t 1t 4t'
+        option vlan '4'
         option vid '85'
+        option ports '6t 1t 2t 3t 4t 0t'
+# 如果要DHCP拿VLAN85的IP, 需要将CPU也tag上
 {% endhighlight %}
 
 ![](/img/openwrt-vlan.JPG)
@@ -215,6 +220,30 @@ dhcp-option=28
 dhcp-option=60,00:00:01:06:68:75:61:71:69:6E:02:0A:48:47:55:34:32:31:4E:20:76:33:03:0A:48:47:55:34:32:31:4E:20:76:33:04:10:32:30:30:2E:55:59:59:2E:30:2E:41:2E:30:2E:53:48:05:04:00:01:00:50
 {% endhighlight %}
 
+- 使用udpxy转发IPTV [参考链接](https://github.com/lucifersun/China-Telecom-ShangHai-IPTV-list)
+
+安装udpxy
+{% highlight text %}
+opkg install udpxy
+opkg install luci-app-udpxy
+{% endhighlight %}
+
+新建一个WAN_IPTV, 通过DHCP获取到VLAN85的IP
+
+![](/img/openwrt-udpxy-2.JPG)
+
+设置udpxy
+
+![](/img/openwrt-udpxy-1.JPG)
+
+
+设置防火墙, 放行5140端口
+
+![](/img/openwrt-udpxy-3.JPG)
+
+设置MWAN3, 使得正常流量不会走WAN_IPTV
+
+![](/img/openwrt-udpxy-4.JPG)
 
 ## 0x04 多wan口设置
 - [openwrt的官方文档](https://openwrt.org/docs/guide-user/network/wan/multiwan/mwan3)
