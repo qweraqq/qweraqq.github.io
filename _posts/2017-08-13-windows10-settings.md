@@ -89,6 +89,7 @@ choco install -y Wget
 choco install -y wireshark
 choco install -y greenshot
 choco install -y vscode
+choco install -y obsidian
 # choco install -y irfanview
 # choco install -y virtualbox
 # choco install -y choco-cleaner
