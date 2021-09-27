@@ -18,7 +18,7 @@ tags: [python cpython]
 - The evaluation loop runs codes
 
 ## 0 The big picture
-```                                          
+{% highlight text %}                                     
 File Input  -----------+                           +-------------------------+                        
 (python <file>)        |                           |                         |
                        |                           |                         |
@@ -29,7 +29,7 @@ IO Stream   -----------|--> Reader --> Parser ---> | Compiler ----> Assembler| -
                        |                           |    Compilation part     |           
 String Input-----------+                           +-------------------------+
 (python -c <str>)                                   
-```
+{% endhighlight %}
 
 - The Python Language Specification: The first step to creating a compiler is to define the language `Grammar/python.gram` -> `make regen-pegen`
 - Input and configuration: Read Python text from various sources
@@ -59,7 +59,7 @@ To execute any Python code, the interpreter needs three elements in place:
 2. A state to hold information such as variables
 3. A configuration, such as which options are enabled [PEP 587](https://www.python.org/dev/peps/pep-0587/)
 With these three components, the interpreter can execute code and provide an output
-```
+{% highlight text %}      
          +-----> Configuration -----+
          |                          |
          |                          |    
@@ -67,7 +67,7 @@ Input ---|-----> State         -----|--> Runtime --> Output
          |                          |
          |                          |
          +-----> Modules       -----+
-```
+{% endhighlight %}
 ### 2.1 Configuration State
 - Preinitialization Configuration: [PyPreConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L125)
 - Runtime Configuration: [PyConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L425)
@@ -83,6 +83,7 @@ Input ---|-----> State         -----|--> Runtime --> Output
 ### 3.1 Concrete Syntax Trees (CST)
 - A non-contextual tree representation of tokens and symbols
 - The CST is created from a `tokenizer` and a `parser`
+
 ```python
 import symbol
 import token
@@ -113,6 +114,7 @@ def lex(expression):
 ### 3.2 Abstract Syntax Trees (AST)
 - A contextual tree representation of Python’s grammar and statements
 - [ast library](https://docs.python.org/3/library/ast.html)
+
 ```python
 import ast
 ast.dump(ast.parse('[ord(c) for line in file for c in line]', mode='eval'))
@@ -122,9 +124,9 @@ ast.dump(ast.parse('[ord(c) for line in file for c in line]', mode='eval'))
 -This compilation task is split into two components:
 1. Compiler: Traverse the AST and create a control flow graph(CFG), which represents the logical sequence for execution.
 2. Assembler: Convert the nodes in the CFG to sequential, executable statements known as bytecode.
-
 - built-in function `compile()`: We can call the `compiler()`in Python, it returns a code object
 - [dis library](https://docs.python.org/3/library/dis.html) module, which disassembles the bytecode instructions
+
 ```python
 import dis
 co = compile("b+1", "test.py", mode="eval")
@@ -157,7 +159,8 @@ table.get_symbols()
 - stack frame-based system 
 - `Python/ceval.c`: The core evaluation loop implementation 
 - `Python/ceval-gil.h`: GIL definination and control algorithm
-```
+
+{% highlight text %}  
            interpreter
                 |
                 |
@@ -202,8 +205,7 @@ thread_state------+
 |              |  Constants    |   |
 |              +---------------+   |
 +----------------------------------+
-
-```
+{% endhighlight %}
 
 - The evaluation loop will take a **code object** and convert it into a series of **frame objects**
 - **value stack**: where variables are created, modified, and used by the bytecode
@@ -214,6 +216,7 @@ thread_state------+
 
 ### 5.1 Thread State
 - `Include/cpython/pystate.h`
+
 ```c++
 // Include/pystate.h
 /* struct _ts is defined in cpython/pystate.h */
