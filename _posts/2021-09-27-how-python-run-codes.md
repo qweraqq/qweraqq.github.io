@@ -18,7 +18,7 @@ tags: [python cpython]
 - The evaluation loop runs codes
 
 ## 0 The big picture
-{% highlight text %}                                     
+```text
 File Input  -----------+                           +-------------------------+                        
 (python <file>)        |                           |                         |
                        |                           |                         |
@@ -29,7 +29,7 @@ IO Stream   -----------|--> Reader --> Parser ---> | Compiler ----> Assembler| -
                        |                           |    Compilation part     |           
 String Input-----------+                           +-------------------------+
 (python -c <str>)                                   
-{% endhighlight %}
+```
 
 - The Python Language Specification: The first step to creating a compiler is to define the language `Grammar/python.gram` -> `make regen-pegen`
 - Input and configuration: Read Python text from various sources
@@ -59,7 +59,7 @@ To execute any Python code, the interpreter needs three elements in place:
 2. A state to hold information such as variables
 3. A configuration, such as which options are enabled [PEP 587](https://www.python.org/dev/peps/pep-0587/)
 With these three components, the interpreter can execute code and provide an output
-{% highlight text %}      
+```text   
          +-----> Configuration -----+
          |                          |
          |                          |    
@@ -67,7 +67,7 @@ Input ---|-----> State         -----|--> Runtime --> Output
          |                          |
          |                          |
          +-----> Modules       -----+
-{% endhighlight %}
+```
 ### 2.1 Configuration State
 - Preinitialization Configuration: [PyPreConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L125)
 - Runtime Configuration: [PyConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L425)
@@ -160,7 +160,7 @@ table.get_symbols()
 - `Python/ceval.c`: The core evaluation loop implementation 
 - `Python/ceval-gil.h`: GIL definination and control algorithm
 
-{% highlight text %}  
+```text
            interpreter
                 |
                 |
@@ -205,7 +205,7 @@ thread_state------+
 |              |  Constants    |   |
 |              +---------------+   |
 +----------------------------------+
-{% endhighlight %}
+```text
 
 - The evaluation loop will take a **code object** and convert it into a series of **frame objects**
 - **value stack**: where variables are created, modified, and used by the bytecode
