@@ -205,7 +205,7 @@ thread_state------+
 |              |  Constants    |   |
 |              +---------------+   |
 +----------------------------------+
-```text
+```
 
 - The evaluation loop will take a **code object** and convert it into a series of **frame objects**
 - **value stack**: where variables are created, modified, and used by the bytecode
