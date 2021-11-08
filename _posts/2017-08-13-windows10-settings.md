@@ -67,7 +67,7 @@ sudo apt-get install proxychains
 - 一些软件
 {% highlight console %}
 # 添加一个fireeye的源
-choco source add -n=fireeye -s="https://www.myget.org/F/flare/api/v2"
+choco source add -n=fireeye -s="https://www.myget.org/F/fireeye/api/v2"
 choco install -y vcredist-all.flare
 choco install -y 7zip.install
 # choco install -y python3
