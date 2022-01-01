@@ -13,11 +13,11 @@ tags: [网络折腾 F1855v2 er12]
 * auto-gen TOC:
 {:toc}
 
-# 要点
+## 要点
 - 光猫为电信SDN光猫ZTE F1855V2, 已经改桥接
 - bond0: balance-rr模式进行PPPoE拨号, 连接光猫的LAN1和LAN4口
 - bond2: 802.3ad(LACP) hash-policy为layer3+4作为LAN接入交换机(MikroTik CSS610)
-
+- er12的bonding默认不能PPPoE, 需要简单的hacking
 
 ## 0 光猫
 - SDN光猫没有啥可配置的
@@ -33,6 +33,11 @@ tags: [网络折腾 F1855v2 er12]
 - 关闭可能影响offload的功能: 关闭switch的VLAN-AWARE及ipv6
 - 注意对于上海电信国际精品网PPPoE MTU=1442 MSS=1400
 - 如果要使用IPTV, 可以切换为dnsmasq并增加DHCP-force-option
+- bonding口增加PPPoE的支持[https://community.ui.com/questions/PPPoE-client-not-supported-on-bonded-interfaces/b96fb5f7-6fe5-47ea-9242-9fc9083ff051](https://community.ui.com/questions/PPPoE-client-not-supported-on-bonded-interfaces/b96fb5f7-6fe5-47ea-9242-9fc9083ff051)
+```bash
+sudo su
+cp -a /opt/vyatta/share/vyatta-cfg/templates/interfaces/ethernet/node.tag/pppoe /opt/vyatta/share/vyatta-cfg/templates/interfaces/bonding/node.tag/
+```
 
 ```text
 firewall {
