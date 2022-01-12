@@ -10,7 +10,7 @@ tags: [win10 env-setings chocolatey]
 
 ## Win10版本选择
 - 首选Long-Term Servicing Channel版本的Windows
-- 目前使用`cn_windows_10_enterprise_ltsc_2019_x64_dvd_2efc9ac2.iso`
+- 目前使用`Windows 10 Enterprise LTSC 2021`
 - 下载iso后可以使用免费的[rufus](https://rufus.ie/)制作启动盘
 
 ## Win10安装注意事项
@@ -42,35 +42,53 @@ slmgr /skms YOUR_KMS_SERVER` 设置kms服务器激活windows
 - 如果Windows update有驱动没有安装的，再手动安装驱动
 
 ## WSL
-- [Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-on-server)
-
-- python
+### 安装
+- [Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install)
+- 下载并安装WSL2依赖的二进制[https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
+- 使用管理员打开CMD, 执行
 {% highlight console %}
-sudo apt-get install python2.7 python-pip python-dev virtualenv git libssl-dev libffi-dev build-essential
-sudo apt-get install python3-pip python3-venv
+wsl --set-default-version 2
+wsl --install -d Ubuntu-20.04
+ubuntu2004.exe config --default-user root
 {% endhighlight %}
 
-- JDK8
+### 环境配置
+- .bashrc配置
+[The Ultimate Bad Ass .bashrc File](https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c)
+
+- 代理
 {% highlight console %}
-sudo apt-get install openjdk-8-jdk
-sudo apt-get install maven
+sudo apt-get update
+sudo apt-get install proxychains-ng -y
 {% endhighlight %}
 
-- proxychains
+在.bashrc最后增加
 {% highlight console %}
-sudo apt-get install proxychains
-# modify last line to 'socks5 127.0.0.1 1080'
+export windows_host=`ip route | grep default | awk '{print $3}'`
+# export ALL_PROXY=socks5://$windows_host:1080
+# export HTTP_PROXY=$ALL_PROXY
+# export http_proxy=$ALL_PROXY
+# export HTTPS_PROXY=$ALL_PROXY
+# export https_proxy=$ALL_PROXY
+sudo sed -i "115c socks5 $windows_host 1080"  /etc/proxychains4.conf
+alias px='proxychains4'
 {% endhighlight %}
+
+- Python
+{% highlight console %}
+px apt-get install git libssl-dev libffi-dev build-essential python3-pip python3-venv -y
+python3 -m pip install pysocks
+px python3 -m pip install pipenv
+{% endhighlight %}
+
 
 ## 使用chocolatey安装常用软件
 - [Installation Guide](https://chocolatey.org/install)
 - 一些软件
 {% highlight console %}
-# 添加一个fireeye的源
-choco source add -n=fireeye -s="https://www.myget.org/F/fireeye/api/v2"
-choco install -y vcredist-all.flare
+choco install -y vcredist-all
 choco install -y 7zip.install
-# choco install -y python3
+choco install -y python3
 # choco install -y anaconda3
 choco install -y mobaxterm
 choco install -y winscp.install
@@ -80,9 +98,10 @@ choco install -y adobereader
 choco install -y ccleaner
 choco install -y curl
 choco install -y git.install
-choco install -y jdk8
+choco install -y crystaldiskinfo
+choco install -y burp-suite-free-edition
+choco install -y ghidra
 choco install -y k-litecodecpackfull
-choco install -y sublimetext3
 choco install -y sysinternals
 choco install -y vlc
 choco install -y Wget
@@ -90,8 +109,9 @@ choco install -y wireshark
 choco install -y greenshot
 choco install -y vscode
 choco install -y obsidian
+choco install -y docker-desktop
+choco install -y choco-cleaner
 # choco install -y irfanview
 # choco install -y virtualbox
-# choco install -y choco-cleaner
 # choco install -y openconnect-gui
 {% endhighlight %}
