@@ -31,7 +31,7 @@ tags: [网络折腾 F1855v2 er12]
 - bond0: eth0-eth3, balance-rr, 用于PPPoE, 实际只连接了两个口
 - bond2: eth4-eth7, 802.3ad(LACP), hash-policy为layer3+4, 作为LAN口
 - 关闭可能影响offload的功能: 关闭switch的VLAN-AWARE及ipv6
-- 注意对于上海电信国际精品网PPPoE MTU=1442 MSS=1400
+- 注意对于上海电信国际精品网PPPoE MTU=1442 MSS=1402
 - 如果要使用IPTV, 可以切换为dnsmasq并增加DHCP-force-option
 - bonding口增加PPPoE的支持[https://community.ui.com/questions/PPPoE-client-not-supported-on-bonded-interfaces/b96fb5f7-6fe5-47ea-9242-9fc9083ff051](https://community.ui.com/questions/PPPoE-client-not-supported-on-bonded-interfaces/b96fb5f7-6fe5-47ea-9242-9fc9083ff051)
 ```bash
