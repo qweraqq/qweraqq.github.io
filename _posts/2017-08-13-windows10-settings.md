@@ -111,6 +111,7 @@ choco install -y vscode
 choco install -y obsidian
 choco install -y docker-desktop
 choco install -y choco-cleaner
+choco install -y openssl.light
 # choco install -y irfanview
 # choco install -y virtualbox
 # choco install -y openconnect-gui
