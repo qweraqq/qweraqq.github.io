@@ -23,6 +23,9 @@ counting有个高大上的名字叫组合数学
 * auto-gen TOC:
 {:toc}
 
+## 0x00 Overview
+![](/img/combinatorics-selections.png)
+
 ## 0x01 Sum rule
 ### 1.1 Sum rule
 Generalized Rule of Sum
@@ -198,8 +201,56 @@ for n in range(max_n):
 print(C[4, 3])
 ```
 
-## 0x07 Tricks
-### 7.1 Bijection rule
+## 0x07 Combinations with repetitions
+### 7.1 Combinations with repetitions
+- Combinations with repetitions are unordered selections with repetitions. 
+- Also known as **multisets**
+- The number of $k$-combinations with repetitions selected out of $n$ objects is
+
+$${k+n-1 \choose n-1}$$
+
+Proof:
+1. In short, a $k$-combination with repetitions is specified by $k$ stars and $n−1$ bars, hence the answer is ${{k+n-1 \choose n-1}}$
+2. Choose $k$ stars
+3. We need $n−1$ bars to split all stars into $n$ groups
+4. To specify such a sequence, one needs to select positions for $n−1$ bars out of all $k+n−1$ positions
+5. Thus, the total number of kk-combinations with repetitions is ${k+n-1 \choose n-1}$
+
+Note that instead of selecting $n−1$ positions for bars, one could as well select $k$ positions for stars (all the remaining positions are filled with bars). This leads to the answer ${k+n-1 \choose k}$ , which is equal to ${k+n-1 \choose n-1}$ by Pascal's rule.
+
+Example: k=4, n=3
+
+```
+012345
+****||
+***|*|
+***||*
+**|**|
+**|*|*
+**||**
+*|***|
+*|**|*
+*|*|**
+*||***
+|****|
+|***|*
+|**|**
+|*|***
+||****
+```
+
+### 7.2 Code
+
+```python
+from itertools import combinations_with_replacement
+
+a = (1, 2, 3)
+two_combinations = combinations_with_replacement(a, 2)
+print(list(two_combinations))
+```
+
+## 0x08 Tricks
+### 8.1 Bijection rule
 A bijection between two sets $A$ and $B$ proves that the cardinalities of $A$ and $B$ are the same.
 
 Example
@@ -213,8 +264,10 @@ triangle (3 points) <---> 7-gons(the other 7 poins)
 |A| = |B|
 ```
 
-### 7.2 Complement rule
+### 8.2 Complement rule
 The number of objects satisfying a certain property is equal to the total number of objects minus the number of objects that do not satisfy the property
 
 if $A \subseteq U$, then 
 $|A| = |U| - |U \setminus A|$
+
+
