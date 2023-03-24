@@ -47,14 +47,31 @@ slmgr /skms YOUR_KMS_SERVER` 设置kms服务器激活windows
 - 下载并安装WSL2依赖的二进制[https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
 - 使用管理员打开CMD, 执行
 {% highlight console %}
+wsl --update
 wsl --set-default-version 2
-wsl --install -d Ubuntu-20.04
-ubuntu2004.exe config --default-user root
+wsl --install -d Ubuntu-22.04
+ubuntu2204.exe config --default-user root
 {% endhighlight %}
 
 ### 环境配置
 - .bashrc配置
 [The Ultimate Bad Ass .bashrc File](https://gist.github.com/zachbrowne/8bc414c9f30192067831fafebd14255c)
+
+- 设置为国内源
+    + [https://mirrors.ustc.edu.cn/help/pypi.html](https://mirrors.ustc.edu.cn/help/pypi.html)
+    + [https://mirrors.ustc.edu.cn/help/ubuntu.html](https://mirrors.ustc.edu.cn/help/ubuntu.html)
+
+{% highlight console %}
+# 一般情况下，将 /etc/apt/sources.list 文件中 
+# Ubuntu 默认的源地址 http://archive.ubuntu.com/ 替换为 http://mirrors.ustc.edu.cn/ 即可
+sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
+# 使用 HTTPS 可以有效避免国内运营商的缓存劫持
+sudo sed -i 's/http:/https:/g' /etc/apt/sources.list
+
+# 使用本镜像站来升级 pip
+python3 -m pip install -i https://mirrors.ustc.edu.cn/pypi/web/simple pip -U
+python3 -m pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
+{% endhighlight %}
 
 - 代理
 {% highlight console %}
@@ -70,7 +87,7 @@ export windows_host=`ip route | grep default | awk '{print $3}'`
 # export http_proxy=$ALL_PROXY
 # export HTTPS_PROXY=$ALL_PROXY
 # export https_proxy=$ALL_PROXY
-sudo sed -i "115c socks5 $windows_host 1080"  /etc/proxychains4.conf
+sudo sed -i "161d socks5 $windows_host 1080"  /etc/proxychains4.conf
 alias px='proxychains4'
 {% endhighlight %}
 
@@ -89,6 +106,8 @@ px python3 -m pip install pipenv
 choco install -y vcredist-all
 choco install -y 7zip.install
 choco install -y python3
+choco install -y temurin11
+choco install -y temurin17
 # choco install -y anaconda3
 choco install -y mobaxterm
 choco install -y winscp.install
@@ -99,8 +118,8 @@ choco install -y ccleaner
 choco install -y curl
 choco install -y git.install
 choco install -y crystaldiskinfo
-choco install -y burp-suite-free-edition
-choco install -y ghidra
+# choco install -y burp-suite-free-edition
+# choco install -y ghidra
 choco install -y k-litecodecpackfull
 choco install -y sysinternals
 choco install -y vlc
@@ -109,7 +128,7 @@ choco install -y wireshark
 choco install -y greenshot
 choco install -y vscode
 choco install -y obsidian
-choco install -y docker-desktop
+# choco install -y docker-desktop
 choco install -y choco-cleaner
 choco install -y openssl.light
 # choco install -y irfanview
