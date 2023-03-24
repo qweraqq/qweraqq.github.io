@@ -98,6 +98,12 @@ python3 -m pip install pysocks
 px python3 -m pip install pipenv
 {% endhighlight %}
 
+- Misc
+{% highlight console %}
+git config --global core.editor "vim"
+git config --global user.name "YOUR_NAME"
+git config --global user.email "YOUR_EMAIL"
+{% endhighlight %}
 
 ## 使用chocolatey安装常用软件
 - [Installation Guide](https://chocolatey.org/install)
