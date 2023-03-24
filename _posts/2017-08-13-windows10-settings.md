@@ -105,6 +105,8 @@ px python3 -m pip install pipenv
 git config --global core.editor "vim"
 git config --global user.name "YOUR_NAME"
 git config --global user.email "YOUR_EMAIL"
+git config --global core.eol lf
+git config --global core.autocrlf false
 {% endhighlight %}
 
 ## 使用chocolatey安装常用软件
