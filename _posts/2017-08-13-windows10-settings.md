@@ -99,6 +99,8 @@ px python3 -m pip install pipenv
 {% endhighlight %}
 
 - Misc
+    + [https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps)
+    + git
 {% highlight console %}
 git config --global core.editor "vim"
 git config --global user.name "YOUR_NAME"
