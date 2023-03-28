@@ -29,7 +29,9 @@ counting有个高大上的名字叫组合数学
 ## 0x01 Sum rule
 ### 1.1 Sum rule
 Generalized Rule of Sum
+
 $$|A \cup B| = |A| + |B| - |A \cap B|$$
+
 - If there are $n$ objects of the first type and there are $k$ objects of the second type, then there are $n+k$ objects of one of two types.
 - when applying the sum rule, one should ensure that no object belongs to both classes
 
