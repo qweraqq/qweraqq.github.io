@@ -129,7 +129,8 @@ choco install -y curl
 choco install -y git.install
 choco install -y crystaldiskinfo
 # choco install -y burp-suite-free-edition
-# choco install -y ghidra
+# -i 用于不安装依赖
+choco install -i -y ghidra 
 choco install -y k-litecodecpackfull
 choco install -y sysinternals
 choco install -y vlc
