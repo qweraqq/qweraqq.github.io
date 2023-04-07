@@ -87,7 +87,7 @@ export windows_host=`ip route | grep default | awk '{print $3}'`
 # export http_proxy=$ALL_PROXY
 # export HTTPS_PROXY=$ALL_PROXY
 # export https_proxy=$ALL_PROXY
-sudo sed -i "161d socks5 $windows_host 1080"  /etc/proxychains4.conf
+sudo sed -i "161c socks5 $windows_host 1080"  /etc/proxychains4.conf
 alias px='proxychains4'
 {% endhighlight %}
 
