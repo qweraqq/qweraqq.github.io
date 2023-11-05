@@ -8,8 +8,7 @@ tags: [android packer]
 ---
 安卓APP的壳有哪些功能
 
-* auto-gen TOC:
-{:toc}
+
 ## 1 Anti-Debugging
 1. `Debug.isDebuggerConnected`
 2. `fork` and `ptrace`

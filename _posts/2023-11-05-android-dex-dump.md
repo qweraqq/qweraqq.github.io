@@ -8,8 +8,7 @@ tags: [android packer]
 ---
 如何实现一个自定义rom的脱壳工具
 
-* auto-gen TOC:
-{:toc}
+
 ## 0 参考材料
 
 - [https://github.com/AlienwareHe/RDex](https://github.com/AlienwareHe/RDex)
