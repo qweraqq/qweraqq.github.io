@@ -6,7 +6,7 @@ author: xiangxiang
 categories: android
 tags: [android packer]
 ---
-安卓APP的壳有哪些功能
+How Android packer works
 
 
 ## 1 Anti-Debugging

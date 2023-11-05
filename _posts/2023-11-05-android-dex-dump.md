@@ -6,7 +6,7 @@ author: xiangxiang
 categories: android
 tags: [android packer]
 ---
-如何实现一个自定义rom的脱壳工具
+Dump dex with custom Android rom
 
 
 ## 0 参考材料
