@@ -10,8 +10,6 @@ tags: [android packer]
 
 * auto-gen TOC:
 {:toc}
-
-
 ## 1 Anti-Debugging
 1. `Debug.isDebuggerConnected`
 2. `fork` and `ptrace`
