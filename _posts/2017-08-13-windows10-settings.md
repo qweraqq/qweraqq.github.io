@@ -147,6 +147,9 @@ choco install -y openssl.light
 # choco install -y openconnect-gui
 
 # https://docs.microsoft.com/en-us/troubleshoot/developer/visualstudio/cpp/libraries/c-runtime-packages-desktop-bridge
-Add-AppxPackage -Path .\Microsoft.VCLibs.x64.14.00.Desktop.appx
-choco install microsoft-windows-terminal -y
+# Add-AppxPackage -Path .\Microsoft.VCLibs.x64.14.00.Desktop.appx
+# choco install microsoft-windows-terminal -y
+
+# 回复windows store for LTSC
+wsreset -i
 {% endhighlight %}
