@@ -154,3 +154,4 @@ FindClass() method
 1. 参考FartExt在ActivityThread中的handleBindApplication启动**dump线程** -> 参考FartExt
 2. **dump线程**通过反射获取mCookie, **根据classLoader->pathList->dexElements->dexFile->mCookie**  -> 参考RDex
 3. 在framework层的DexFile类中添加Native函数`dump`供调用, `dump`作用就是将dex保存下来, 具体实现需要修改`art/runtime/native/dalvik_system_DexFile.cc` -> 参考Fart
+
