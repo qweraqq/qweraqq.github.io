@@ -66,8 +66,9 @@ How Android packer works & Dump dex with custom Android rom
 1. VMP
 2. DEX2C
 
-### 动态环境检测, properties举例
-[https://github.com/maddiestone/IDAPythonEmbeddedToolkit/blob/master/Android/WeddingCake_sysprops.txt]([https://github.com/maddiestone/IDAPythonEmbeddedToolkit/blob/master/Android/WeddingCake_sysprops.txt)
+### 动态环境检测
+- properties举例
+- [https://github.com/maddiestone/IDAPythonEmbeddedToolkit/blob/master/Android/WeddingCake_sysprops.txt]([https://github.com/maddiestone/IDAPythonEmbeddedToolkit/blob/master/Android/WeddingCake_sysprops.txt)
 
 ```
 System Property Checked,Value that Causes Exit
@@ -150,7 +151,7 @@ FindClass() method
 - 核心是FART的思路, FART有一个XPosed的实现版本RDex
 - 主动调用应对指令抽取不需要, 我们可以 延迟 + 主动点击应用(半自动化)实现
 
-## 4 APP脱壳具体实现:
+## 4 APP脱壳具体实现
 1. 参考FartExt在ActivityThread中的handleBindApplication启动**dump线程** -> 参考FartExt
 2. **dump线程**通过反射获取mCookie, **根据classLoader->pathList->dexElements->dexFile->mCookie**  -> 参考RDex
 3. 在framework层的DexFile类中添加Native函数`dump`供调用, `dump`作用就是将dex保存下来, 具体实现需要修改`art/runtime/native/dalvik_system_DexFile.cc` -> 参考Fart
