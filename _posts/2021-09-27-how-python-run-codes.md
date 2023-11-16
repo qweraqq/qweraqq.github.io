@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "How Python run codes"
+excerpt_separator: <!--more-->
 nav_order: 4
 date: 2021-09-27 00:00:00 +0800
 author: xiangxiang
@@ -8,6 +9,7 @@ categories: python
 tags: [python cpython]
 ---
 [CPython internals](https://realpython.com/products/cpython-internals-book/)学习笔记
+ <!--more-->
 
 * auto-gen TOC:
 {:toc}
@@ -18,7 +20,8 @@ tags: [python cpython]
 - The evaluation loop runs codes
 
 ## 0 The big picture
-```text
+
+{% highlight text %}
 File Input  -----------+                           +-------------------------+                        
 (python <file>)        |                           |                         |
                        |                           |                         |
@@ -29,7 +32,7 @@ IO Stream   -----------|--> Reader --> Parser ---> | Compiler ----> Assembler| -
                        |                           |    Compilation part     |           
 String Input-----------+                           +-------------------------+
 (python -c <str>)                                   
-```
+{% endhighlight %}
 
 - The Python Language Specification: The first step to creating a compiler is to define the language `Grammar/python.gram` -> `make regen-pegen`
 - Input and configuration: Read Python text from various sources
@@ -41,12 +44,15 @@ String Input-----------+                           +-------------------------+
 - Human readable: `Doc/reference` directory contains rst explanations of the features in the Python language, the same as [https://docs.python.org/3/reference/](https://docs.python.org/3/reference/)
 - Machine-readable: the grammer file `Grammar/python.gram`
 - [PEP 5 -- Guidelines for Language Evolution](https://www.python.org/dev/peps/pep-0005/)
+
 ### 1.1 The Grammer File `Grammar/python.gram`
 - Parsing expression grammar (PEG) specification
 - Backus-Naur Form (BNF) specification `Grammar/Grammar` removed from 3.10
+  
 ### 1.2 The Parser Generator
 - If you make changes to ghe grammer file, then you must regenerate the parser
 - `make regen-pegen`
+
 ### 1.3 Tokens
 - `Grammar/Tokens`
 - The unique types found as leaf nodes in a parse tree
@@ -59,7 +65,8 @@ To execute any Python code, the interpreter needs three elements in place:
 2. A state to hold information such as variables
 3. A configuration, such as which options are enabled [PEP 587](https://www.python.org/dev/peps/pep-0587/)
 With these three components, the interpreter can execute code and provide an output
-```text   
+
+{% highlight text %}
          +-----> Configuration -----+
          |                          |
          |                          |    
@@ -67,19 +74,24 @@ Input ---|-----> State         -----|--> Runtime --> Output
          |                          |
          |                          |
          +-----> Modules       -----+
-```
+{% endhighlight %}
+
+
 ### 2.1 Configuration State
 - Preinitialization Configuration: [PyPreConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L125)
 - Runtime Configuration: [PyConfig](https://github.com/python/cpython/blob/v3.9.0/Include/cpython/initconfig.h#L425)
+  
 ### 2.2 Build Configuration
 - Build configuration properties are compile-time values used to select additional modules to be linked into the binary
 - See build configuration by running `python -m sysconfig`
+  
 ### 2.3 Code inputs
 - Local files and packages
 - I/O streams, such as stdin or a memory pipe
 - Strings
 
 ## 3 Lexing and Parsing with Syntax Trees
+
 ### 3.1 Concrete Syntax Trees (CST)
 - A non-contextual tree representation of tokens and symbols
 - The CST is created from a `tokenizer` and a `parser`
@@ -111,6 +123,7 @@ def lex(expression):
         return r
     return replace(st_list)
 ```
+
 ### 3.2 Abstract Syntax Trees (AST)
 - A contextual tree representation of Python’s grammar and statements
 - [ast library](https://docs.python.org/3/library/ast.html)
@@ -121,7 +134,7 @@ ast.dump(ast.parse('[ord(c) for line in file for c in line]', mode='eval'))
 ```
 
 ## 4 Compiler
--This compilation task is split into two components:
+- This compilation task is split into two components:
 1. Compiler: Traverse the AST and create a control flow graph(CFG), which represents the logical sequence for execution.
 2. Assembler: Convert the nodes in the CFG to sequential, executable statements known as bytecode.
 - built-in function `compile()`: We can call the `compiler()`in Python, it returns a code object
@@ -136,20 +149,25 @@ dis.dis(co.co_code)
 ### 4.1 Instantiating a Compiler
 - Before the compiler starts, a global compiler state is created. 
 - The compiler state (compiler type) structure contains properties used by the compiler, such as compiler flags, the stack, and the PyArena. It also contains links to other data structures, like the symbol table
+  
 ### 4.2 Compiler flags
 - There are two types of flags to toggle the features inside the compiler, `future flags` and `compiler flags`. These flags can be set in two places:
 1. The configuration state, which contains environment variables and command-line flags
 2. Inside the source code of the module through the use of `__future__` statements
+
 ### 4.3 Symbol Tables
 - The purpose of the symbol table is to provide a list of namespaces, globals, and locals for the compiler to use for referencing and resolving scopes
 - [symtable library](https://docs.python.org/3/library/symtable.html)
+
 ```python
 import symtable
 table = symtable.symtable("def some_func(): pass", "string", "exec")
 table.get_symbols()
 ```
+
 ### 4.4 Core Compilation Process (PyAST_CompileObject)
 - [PyAST_CompileObject()](https://github.com/python/cpython/blob/v3.9.0/Python/compile.c#L318)
+  
 ### 4.5 Assembly
 - Once these compilation stages have completed, the compiler has a list of frame blocks, each containing a list of instructions and a pointer to the next block. 
 - The assembler performs a depth-first search (DFS) of the basic frame blocks and merges the instructions into a single bytecode sequence
@@ -160,7 +178,7 @@ table.get_symbols()
 - `Python/ceval.c`: The core evaluation loop implementation 
 - `Python/ceval-gil.h`: GIL definination and control algorithm
 
-```text
+{% highlight text %}
            interpreter
                 |
                 |
@@ -205,7 +223,7 @@ thread_state------+
 |              |  Constants    |   |
 |              +---------------+   |
 +----------------------------------+
-```
+{% endhighlight %}
 
 - The evaluation loop will take a **code object** and convert it into a series of **frame objects**
 - **value stack**: where variables are created, modified, and used by the bytecode
