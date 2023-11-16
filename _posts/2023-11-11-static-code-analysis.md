@@ -1,15 +1,18 @@
 ---
 layout: post
 title: "Static Code Analysis"
-nav_order: 4
+excerpt_separator: <!--more-->
 date: 2023-11-11 00:00:00 +0800
 author: xiangxiang
 categories: security
 tags: [sast security codeql]
 ---
+{% highlight text %}
+       Data Flow
+Source ----------> Sink
+{% endhighlight %}
 
-Source --> Sink
-
+<!--more-->
 * auto-gen TOC:
 {:toc}
 
