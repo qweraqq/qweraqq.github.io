@@ -31,7 +31,7 @@ main cause of vulnerabilities:
 To represent these in static analysis, we use terms such as data flow, sources, and sinks
 - sources: User input generally comes from entry points to an application—the origin of data. These include parameters in HTTP methods, such as GET and POST, or command line arguments to a program
   
-- sinks: Continuing with our SQL injection, an example of a dangerous function that should not be called with unsanitized untrusted data could be `MySQLCursor.execute()` from the MySQLdb library in Python or Python’s `eval()` built-in function which evaluates arbitrary expressions. These dangerous functions are called .” Note that just because a function is potentially dangerous, it does not mean it is immediately an exploitable vulnerability and has to be removed. Many sinks have ways of using them safely
+- sinks: Continuing with our SQL injection, an example of a dangerous function that should not be called with unsanitized untrusted data could be `MySQLCursor.execute()` from the MySQLdb library in Python or Python’s `eval()` built-in function which evaluates arbitrary expressions. These dangerous functions are called "sinks". Note that just because a function is potentially dangerous, it does not mean it is immediately an exploitable vulnerability and has to be removed. Many sinks have ways of using them safely
 
 - data flow: For a vulnerability to be present, the unsafe, user-controlled input has to be used without proper sanitization or input validation in a dangerous function. In other words, there has to be a code path between the source and the sink, in which case we say that data flows from a source to a sink—there is a **data flow** from the source to the sink
 
