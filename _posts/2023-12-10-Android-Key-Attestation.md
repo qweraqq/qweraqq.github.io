@@ -111,7 +111,10 @@ PKI的东西总是让人很头疼
 - cert0为attestation certificate, [attestation扩展字段的ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema)
   
 
-#### 2.2.1 cert 0 
+#### 2.2.1 cert 0
+- 使用[https://lapo.it/asn1js/](https://lapo.it/asn1js/)解析cert0的扩展字段
+- [attestation扩展字段的ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema)
+  
 ```
 -----BEGIN CERTIFICATE-----
 MIICojCCAkmgAwIBAgIBATAKBggqhkjOPQQDAjApMRkwFwYDVQQFExAxYzE3MmFlOWViMmMyNzg3MQwwCgYDVQQMDANURUUwIBcNNzAwMTAxMDAwMDAwWhgPMjEwNjAyMDcwNjI4MTVaMB8xHTAbBgNVBAMMFEFuZHJvaWQgS2V5c3RvcmUgS2V5MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEr2XbCNUn04ZSHjZHDuGATFNHaatKYD64xVxq0hbXE/B/rVNN4mQbfMEehrZtD0clG9n0DTIBU7DhZJuk0z23RKOCAWgwggFkMA4GA1UdDwEB/wQEAwIHgDCCAVAGCisGAQQB1nkCAREEggFAMIIBPAIBAwoBAQIBBAoBAQQbY2hhbGxlbmdlLXNob3VsZC1iZS1hLW5vbmNlBAAwXL+FPQgCBgFqCA+sML+FRUwESjBIMSIwIAQbY29tLnNoZW4xOTkxLmtleWF0dGVzdGF0aW9uAgEBMSIEIPwsiTcXTYF4XlKEOAs8vctVWTQqaeQAXaykAXYuonKDMIGwoQUxAwIBAqIDAgEDowQCAgEApQsxCQIBBAIBBQIBBqoDAgEBv4N4AwIBA7+DeQQCAgEsv4U+AwIBAL+FQEwwSgQgjKia8abap0sAgQhJNW3pKc/ESY7zavlkdXveihE79G0BAf8KAQAEIE1O53kDZ6JaRR6DWQ2I5FciNcCllfhTZtmBJuUr33hBv4VBBQIDAdTAv4VCBQIDAxXdv4VOBgIEATSKWb+FTwYCBAE0ilkwCgYIKoZIzj0EAwIDRwAwRAIgF4eShdyYw0HHxfaFtOnVUrCP3+IuQsyIv74uPvK1h90CIBGv/4R2bDW53IRbt9j9yUpiR6esT6Ee3LvCRxps9klA
@@ -152,14 +155,6 @@ Certificate:
         d5:52:b0:8f:df:e2:2e:42:cc:88:bf:be:2e:3e:f2:b5:87:dd:
         02:20:11:af:ff:84:76:6c:35:b9:dc:84:5b:b7:d8:fd:c9:4a:
         62:47:a7:ac:4f:a1:1e:dc:bb:c2:47:1a:6c:f6:49:40
-```
-
-- 使用[https://lapo.it/asn1js/](https://lapo.it/asn1js/)解析cert0的扩展字段
-- [attestation扩展字段的ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema)
-```asn.1
-30 82 01 3c 02 01 03 0a 01 01 02 01 04 0a 01 01 04 1b 63 68 61 6c 6c 65 6e 67 65 2d 73 68 6f 75 6c 64 2d 62 65 2d 61 2d 6e 6f 6e 63 65 04 00 30 5c bf 85 3d 08 02 06 01 6a 08 0f ac 30 bf 85 45 4c 04 4a 30 48 31 22 30 20 04 1b 63 6f 6d 2e 73 68 65 6e 31 39 39 31 2e 6b 65 79 61 74 74 65 73 74 61 74 69 6f 6e 02 01 01 31 22 04 20 fc 2c 89 37 17 4d 81 78 5e 52 84 38 0b 3c bd cb 55 59 34 2a 69 e4 00 5d ac a4 01 76 2e a2 72 83 30 81 b0 a1 05 31 03 02 01 02 a2 03 02 01 03 a3 04 02 02 01 00 a5 0b 31 09 02 01 04 02 01 05 02 01 06 aa 03 02 01 01 bf 83 78 03 02 01 03 bf 83 79 04 02 02 01 2c bf 85 3e 03 02 01 00 bf 85 40 4c 30 4a 04 20 8c a8 9a f1 a6 da a7 4b 00 81 08 49 35 6d e9 29 cf c4 49 8e f3 6a f9 64 75 7b de 8a 11 3b f4 6d 01 01 ff 0a 01 00 04 20 4d 4e e7 79 03 67 a2 5a 45 1e 83 59 0d 88 e4 57 22 35 c0 a5 95 f8 53 66 d9 81 26 e5 2b df 78 41 bf 85 41 05 02 03 01 d4 c0 bf 85 42 05 02 03 03 15 dd bf 85 4e 06 02 04 01 34 8a 59 bf 85 4f 06 02 04 01 34 8a 59
-
-# https://lapo.it/asn1js/
 
 PrivateKeyInfo SEQUENCE (8 elem)
   version Version INTEGER 3
@@ -221,6 +216,9 @@ challenge-should-be-a-nonce
     [719] (1 elem)
       INTEGER 20220505
 ```
+
+
+
 
 #### 2.2.2 cert 1
 ```
@@ -396,6 +394,9 @@ Certificate 3:
 ### 2.3 XAGA with unlocked BL(TEE not Broken)
 
 #### 2.3.1 cert 0
+- 使用[https://lapo.it/asn1js/](https://lapo.it/asn1js/)解析cert0的扩展字段
+- [attestation扩展字段的ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema)
+
 ```
 -----BEGIN CERTIFICATE-----
 MIICkTCCAjegAwIBAgIBATAKBggqhkjOPQQDAjA5MQwwCgYDVQQMDANURUUxKTAnBgNVBAUTIDMyYzc4ZjNhYTE0NDM3YTM1YTRhOGQyZjJhMWJlOWVjMB4XDTcwMDEwMTAwMDAwMFoXDTQ4MDEwMTAwMDAwMFowHzEdMBsGA1UEAxMUQW5kcm9pZCBLZXlzdG9yZSBLZXkwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS1JKLq7yJVPPEea74NxKRnBJQbWWMB9jsVdyKt7Qrw+TvxDRZSmyq2mnkLNKFN/ev6yZGF8mMTPzUPMW0yGe/Co4IBSDCCAUQwDgYDVR0PAQH/BAQDAgeAMIIBMAYKKwYBBAHWeQIBEQSCASAwggEcAgFkCgEBAgFkCgEBBBtjaGFsbGVuZ2Utc2hvdWxkLWJlLWEtbm9uY2UEADBQv4VFTARKMEgxIjAgBBtjb20uc2hlbjE5OTEua2V5YXR0ZXN0YXRpb24CAQExIgQg/CyJNxdNgXheUoQ4Czy9y1VZNCpp5ABdrKQBdi6icoMwgZyhBTEDAgECogMCAQOjBAICAQClCzEJAgEEAgEFAgEGqgMCAQG/g3gDAgEDv4N5BAICASy/hT4DAgEAv4VATDBKBCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAoBAgQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/hUEFAgMB1MC/hUIFAgMDFeIwCgYIKoZIzj0EAwIDSAAwRQIhAN5kZiQu/vmf+IYhcESEnfN2vVQtsdu9SCjV0O2x7vZIAiB85VmBJC72GGrNogRVGfjcQZuz5GeRsIwnZe1djQbcRg==
@@ -723,6 +724,8 @@ Certificate:
 ### 2.4 XAGA with locked BL
 
 #### 2.4.1 cert 0
+- 使用[https://lapo.it/asn1js/](https://lapo.it/asn1js/)解析cert0的扩展字段
+- [attestation扩展字段的ASN.1 schema](https://source.android.com/docs/security/features/keystore/attestation#schema)
 
 ```
 -----BEGIN CERTIFICATE-----
