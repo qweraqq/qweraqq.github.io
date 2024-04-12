@@ -13,8 +13,7 @@ tags: [android frida security]
 * auto-gen TOC:
 {:toc}
 
-## 0x00 refs
-- [在Android so文件的.init、.init_array上和JNI_OnLoad处下断点](https://blog.csdn.net/QQ1084283172/article/details/54233552)
+
 
 ## 0x01 Android Linker源码分析
 - 通过分析源码分析，我们可以利用执行so文件`.init`、`.init_array`前后系统调用打印日志的时机，进行hook
@@ -325,3 +324,54 @@ void linker_log(int prio, const char* fmt, ...) {
 - 动静态可以对应分析
 
  ![](/img/frida-android-trace-so-1.jpg)
+
+```bash
+cat /data/tombstones/...
+```
+
+## 0x04 misc
+### 4.1 魔改去特征版Frida
+- [https://github.com/hzzheyang/strongR-frida-android](https://github.com/hzzheyang/strongR-frida-android)
+
+### 4.2 修改文件名启动Frida
+- 将二进制通过adb push至安卓手机
+- 将二进制移动到`/data/local/tmp`或`/sbin/`目录下、更名并增加执行权限
+- 重命名后只能通过网络方式调用, 原因可能是本地frida-tools与魔改版不匹配? 参考[https://github.com/frida/frida/issues/2326](https://github.com/frida/frida/issues/2326)
+- 可能需要shamiko, 猜测是需要隐藏内存, 原理参考 [https://nullptr.icu/index.php/archives/182/](https://nullptr.icu/index.php/archives/182/)
+- 网络方式可以通过`adb`进行转发
+
+手机上
+```bash
+cd /sbin/
+cp /sdcard/Download/hluda-server-16.2.1-android-arm64 ./h-s
+chmod +x h-s
+./h-s -l 0.0.0.0:8081
+```
+
+PC端
+```bash
+adb forward tcp:8081 tcp:8081
+frida -H 127.0.0.1:8081 -l xxx.js -f com.android.xxx
+```
+
+### 4.3 Frida Scripts Collection
+- [https://github.com/apkunpacker/FridaScripts](https://github.com/apkunpacker/FridaScripts)
+- [https://github.com/hluwa/frida-dexdump](https://github.com/hluwa/frida-dexdump)
+- [https://github.com/sensepost/objection.git](https://github.com/sensepost/objection.git)
+### 4.4 Frida Snippets
+
+```js
+Java.perform(function() {
+    Java.enumerateLoadedClasses({
+        onMatch: function(className) {
+            if(className.indexOf("something") >=0 ){
+              console.log(className);
+            }
+        },
+        onComplete: function() {}
+    });
+});
+```
+
+## refs
+- [在Android so文件的.init、.init_array上和JNI_OnLoad处下断点](https://blog.csdn.net/QQ1084283172/article/details/54233552)
