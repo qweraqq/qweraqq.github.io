@@ -26,21 +26,21 @@ tags: [android frida security]
 - parent process's `TracerPid` should be child process
 - other processes cannot `prace` parent process
 
-### 1.3 /proc/<pid>/maps
+### 1.3 /proc/`<pid>`/maps
 - Scanning a process memory for artifacts
 - Full memory scan, such as strings (e.g. "LIBFRIDA")
 - Scan so file name or file path in maps (e.g. "/data/local/tmp", "frida-server")
 
-### 1.4 /proc/<pid>/status
+### 1.4 /proc/`<pid>`/status
 - `TracerPid`
 
-### 1.5 /proc/<pid>/task/<tid>/stat
+### 1.5 /proc/`<pid>`/task/`<tid>`/stat
 - `Tracing` status
 
-### 1.6 /proc/<pid>/task/<tid>/status
+### 1.6 /proc/`<pid>`/task/`<tid>`/status
 - task name  (e.g. "gum-js-loop", "gmain", "gdbus", "pool-frida")
 
-### 1.7 /proc/<pid>/fd
+### 1.7 /proc/`<pid>`/fd
 - `readlink` (e.g. "/data/local/tmp", "linjector")
 
 ### 1.8 injection (memory modification)
@@ -92,12 +92,12 @@ Two main ideas
 ### 2.1 Special frida
 - port: `./frida-server -l 127.0.0.1:8088` change default listening port
 - Dual Process (ptrace): spawn mode
-- /proc/<pid>/status: spawn mode
-- /proc/<pid>/task/<tid>/stat: spawn mode
-- /proc/<pid>/task/<tid>/status: compile frida to remove special strings
-- /proc/<pid>/fd: compile frida to remove special strings
+- /proc/`<pid>`/status: spawn mode
+- /proc/`<pid>`/task/`<tid>`/stat: spawn mode
+- /proc/`<pid>`/task/`<tid>`/status: compile frida to remove special strings
+- /proc/`<pid>`/fd: compile frida to remove special strings
 - injection (memory modification): cannot bypass all
-- /proc/<pid>/maps
+- /proc/`<pid>`/maps
   + change frida-serve filename
   + compile frida to remove special strings
   + shamiko
