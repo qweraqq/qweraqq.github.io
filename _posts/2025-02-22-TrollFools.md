@@ -13,6 +13,40 @@ iOS injection without JB
 * auto-gen TOC:
 {:toc}
 
+## 0x00 Exploit Needed for JB
+### kernel r/w
+userspace -> kernel space
+- tfp0: iOS 14 tfp0 hardening
+- kmsg < iOS14.2 : convert a two-byte heap overflow (inkalloc_large area) to a full exploit
+- CVE-2021-1782 < iOS 14.4: A race condition in `user_data_get_value()` leading to ivac entry UAF
+  + [CVE-2021-1782](https://www.synacktiv.com/publications/analysis-and-exploitation-of-the-ios-kernel-vulnerability-cve-2021-1782)
+  + [https://github.com/ModernPwner/cicuta_virosa](https://github.com/ModernPwner/cicuta_virosa)
+- IOSurface
+  + [IOSurface](https://powerofcommunity.net/poc2019/Liang.pdf)
+- kfd
+  + [https://github.com/felix-pb/kfd](https://github.com/felix-pb/kfd)
+  
+### Integrity bypass
+- [https://support.apple.com/guide/security/operating-system-integrity-sec8b776536b/web](https://support.apple.com/guide/security/operating-system-integrity-sec8b776536b/web)
+- PPL stands for Page Protection Layer, and it works as a means of security by preventing code from being modified once it’s verified by the system
+- PAC stands for Pointer Authentication Codes, 
+  + [https://ivrodriguez.com/pointer-authentication-on-armv8-3/amp/](https://ivrodriguez.com/pointer-authentication-on-armv8-3/amp/)
+- We need kernel PAC bypass to do the kcall things, or PPL bypass
+  + [https://bazad.github.io/presentations/BlackHat-USA-2020-iOS_Kernel_PAC_One_Year_Later.pdf](https://bazad.github.io/presentations/BlackHat-USA-2020-iOS_Kernel_PAC_One_Year_Later.pdf)
+
+
+```text
+
++-------+   ---->  Trust Cache  ---->  Core Trust  ----> amfid
+| fork/ |             |                                    |
+| exec  |             |                                    |
++-------+             +---------------         --------->  +------> a.out
+              
+
+```
+
+- TrustCache
+- CoreTrust
 
 ## 0x01 TrollStore
 ### 1.1 Code signature
