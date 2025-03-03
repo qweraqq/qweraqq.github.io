@@ -25,6 +25,7 @@ userspace -> kernel space
   + [IOSurface](https://powerofcommunity.net/poc2019/Liang.pdf)
 - kfd
   + [https://github.com/felix-pb/kfd](https://github.com/felix-pb/kfd)
+  + [https://alfiecg.uk/2025/03/01/Trigon.html](https://alfiecg.uk/2025/03/01/Trigon.html)
   
 ### Integrity bypass
 - [https://support.apple.com/guide/security/operating-system-integrity-sec8b776536b/web](https://support.apple.com/guide/security/operating-system-integrity-sec8b776536b/web)
