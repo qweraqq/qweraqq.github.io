@@ -8,7 +8,7 @@ tags: [win10 env-setings chocolatey]
 ---
 记录自己的Windows10装机后的软件配置
 
-## Win10版本选择
+## Win11版本选择
 - 首选Long-Term Servicing Channel版本的Windows
 - 目前使用`Windows 11 Enterprise LTSC 2024`
 - 下载iso后可以使用免费的[rufus](https://rufus.ie/)制作启动盘
@@ -94,7 +94,8 @@ reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\Inpro
     + `%GRADLE_HOME%\bin\`
 
 ## Android
-- SET Windows ENV: `ANDROID_HOME`
+- SET Windows ENV: `ANDROID_HOME` & `ANDROID_NDK_HOME`
+- Download NDK from [https://developer.android.com/ndk/downloads](https://developer.android.com/ndk/downloads)
 
 ## VSCode Community
 - Desktop Development C++ MSVC
@@ -117,6 +118,37 @@ Computer Configuration > Administration Templates > Windows Components > Remote 
 Now, double-click Turn Off UDP On Client in the right pane.
 Then, tick the Enabled radio button and click OK.
 ```
+
+## Python (miniforge)
+- miniforge [https://github.com/conda-forge/miniforge](https://github.com/conda-forge/miniforge)
+- settings in `<INSTALL-DIR>/.condarc` [https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
+
+```
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+- `mamba update --all`
+- `mamba env list`
+- `mamba create -n py312 python=3.12`
+- `mamba activate py312`
+
+## Rust
+- SET Windows ENV **first**
+    + `RUSTUP_HOME`: `D:\rust\.rustup`
+    + `RUSTUP_DIST_SERVER`: `https://mirrors.tuna.tsinghua.edu.cn/rustup`
+    + `RUSTUP_UPDATE_ROOT`: `https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup`
+    + `CARGO_HOME`: `E:\rust\.cargo`
+- [https://rust-lang.org/tools/install/](https://rust-lang.org/tools/install/)
+- `rustup update`
 
 ## WSL
 ### 安装
