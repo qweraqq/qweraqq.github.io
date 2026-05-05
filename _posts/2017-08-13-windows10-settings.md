@@ -6,7 +6,7 @@ author: xiangxiang
 categories: env-settings windows
 tags: [win10 env-setings chocolatey]
 ---
-记录自己的Windows10装机后的软件配置
+记录自己的Windows11装机后的软件配置
 
 ## Win11版本选择
 - 首选Long-Term Servicing Channel版本的Windows
@@ -96,6 +96,8 @@ reg add HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\Inpro
 ## Android
 - SET Windows ENV: `ANDROID_HOME` & `ANDROID_NDK_HOME`
 - Download NDK from [https://developer.android.com/ndk/downloads](https://developer.android.com/ndk/downloads)
+- Add to PATH
+    + `%ANDROID_HOME%\platform-tools\`
 
 ## VSCode Community
 - Desktop Development C++ MSVC
